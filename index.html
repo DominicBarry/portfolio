@@ -6,21 +6,12 @@
 -->
 <html>
 	<head>
-		<title>Dom Barry Data Portfolio</title>
+		<title>Dom Barry Portfolio</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-DTXR3EQQG7"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'G-DTXR3EQQG7');
-	</script>
 	<body class="is-preload">
 
 		<!-- Wrapper -->
@@ -55,21 +46,47 @@
 				<!-- Main -->
 					<div id="main">
 
-						<!-- Featured Post 
+						<!-- Featured Post -->
 							<article class="post featured">
 								<header class="major">
-									<span class="date">April 25, 2017</span>
-									<h2><a href="#">And this is a<br />
-									massive headline</a></h2>
-									<p>Aenean ornare velit lacus varius enim ullamcorper proin aliquam<br />
-									facilisis ante sed etiam magna interdum congue. Lorem ipsum dolor<br />
-									amet nullam sed etiam veroeros.</p>
+									<span class="date">January 2026</span>
+									<h2><a href="#">SEO Reporting Pipeline<br />
+									(Data Engineering)</a></h2>
+									<p>Built a production ETL pipeline for <a href="https://herd.io/" target="_blank">Herd</a>, merging historical ranking data<br />
+									with a new tracking platform for one of the world's leading airlines and hospitality brands.<br />
+									Validated the existing system, expanded its capabilities, and redesigned the architecture<br />
+									for multi-client scalability across 15+ brand websites and 13 international markets.</p>
 								</header>
-								<a href="#" class="image main"><img src="images/pic01.jpg" alt="" /></a>
-								<ul class="actions special">
-									<li><a href="#" class="button large">Full Story</a></li>
+								<a href="#" class="image main"><img src="images/seo-reporting-pipeline.svg" alt="SEO Reporting Pipeline" /></a>
+								
+								<h3>The Challenge</h3>
+								<p>The agency needed to migrate from a legacy ranking tool to a new platform while preserving years of historical data. Their existing reporting system had two significant problems: <strong>Performance and reliability</strong> - all calculations and filtering happened within Looker Studio, making reports slow and prone to bugs. <strong>Scalability</strong> - each client had a separate codebase to generate reporting tables, making maintenance difficult and expansion costly. I took full ownership of the project, delivering a complex data engineering system end-to-end.</p>
+								
+								<h3>What I Delivered</h3>
+								<ul>
+									<li>Validated and enhanced the calculated fields table - correcting calculation logic, adding filter granularity, and rebuilding metrics to cascade down to multiple levels to support Looker filtering</li>
+									<li>Moved calculation logic from Looker into BigQuery - faster queries, fewer bugs, easier to validate</li>
+									<li>Designed cross-market aggregation methodology for unified reporting across 5+ international markets</li>
+									<li>Consolidated separate per-client codebases into a single templated system - adding new clients now requires only configuration changes, no code modifications</li>
+									<li>Built cross-region data transfer process for 1.9 billion rows of historical data</li>
+									<li>Created comprehensive documentation and validation queries for ongoing monitoring</li>
 								</ul>
-							</article> -->
+								
+								<h3>Technical Highlights</h3>
+								<ul>
+									<li><strong>Three-stage daily pipeline</strong> with scheduled dependencies (extract 05:00 → merge 09:00 → calculate 11:00 UTC)</li>
+									<li><strong>Configuration-driven onboarding</strong> - new clients added via database tables, not code changes</li>
+									<li><strong>Idempotent processing</strong> - queries safe to re-run without creating duplicates</li>
+									<li><strong>Multi-level hierarchy</strong> - metrics calculated at GLOBAL, market, and 5 levels of keyword grouping (L1-L5)</li>
+									<li><strong>SEO metrics implemented</strong> - visibility score, weighted visibility, search volume, ranking search volume, estimated click volume, position bucket distributions</li>
+								</ul>
+								
+								<h3>Key Technologies</h3>
+								<p>BigQuery, SQL, Scheduled Queries, Google Cloud Storage, Looker Studio, Git.</p>
+								
+								<h3>Skills Demonstrated</h3>
+								<p>SQL development, ETL pipeline design, data quality assurance, debugging production systems, technical documentation, stakeholder communication, independent problem-solving.</p>
+							</article>
 
 						<!-- Posts -->
 							<section class="posts">
