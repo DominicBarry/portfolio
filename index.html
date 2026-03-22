@@ -52,181 +52,63 @@
 					<div id="main">
 
 						<!-- Featured Post -->
-							<!-- Rekordbox Portfolio Article -->
-<article class="post featured">
-    <header class="major">
-        <span class="date">March 2026</span>
-        <h2><a href="#">Rekordbox Library<br />
-        Analysis Tool</a></h2>
-        <p>A personal project to surface play history insights from an encrypted proprietary database,<br />
-        using AI-assisted research, SQL querying, Python scripting and XML manipulation<br />
-        to build a practical DJ library management tool.</p>
-    </header>
-    <a href="#" class="image main"><img src="images/rekordbox-library-analysis.jpg" alt="Rekordbox Library Analysis Tool" /></a>
-
-    <h3>The Problem</h3>
-    <p>Rekordbox has no native "Last Played" field and no smart playlist functionality based on play history. Play history is recorded, but only within auto-generated History playlists — and these are excluded from XML exports and cannot be used as a filter within Rekordbox itself. For an active DJ managing a library of several thousand tracks, this makes it impossible to identify music that hasn't been played for months or years — useful both for library housekeeping and rediscovering forgotten tracks.</p>
-
-    <h3>The Investigation</h3>
-    <p>I knew the data existed — the question was how to access it. I used multiple LLMs (ChatGPT, Gemini and Claude) iteratively to map out the options, and this process itself became one of the more interesting aspects of the project.</p>
-    <p>Each LLM had partial knowledge and partial blind spots. ChatGPT correctly identified the Rekordbox database as the right data source and outlined a viable pipeline, but never identified the fundamental blocker: the database is encrypted. Gemini got further — correctly identifying SQLCipher encryption — but wrongly stated the key was unique to each machine, which would have sent the investigation down a dead end. Claude identified that Pioneer uses a single hardcoded SQLCipher key across all Rekordbox installations — publicly documented by the developer community — which unlocked the path forward.</p>
-    <p>Progress required consistent challenge and verification — confident-sounding answers were sometimes wrong, and it was only by questioning outputs and testing assumptions that a clear, workable solution emerged. Knowing the Rekordbox ecosystem gave confidence that the data existed and the problem was solvable, but it was a methodical, detail-oriented approach that ultimately got it there.</p>
-
-    <h3>What I Built</h3>
-    <p>The core design principle was safety — rather than writing directly to the live database and risking any unintended changes, the solution reads a decrypted copy and uses Rekordbox's own XML import mechanism to surface the results. No changes are ever made to the live database.</p>
-    <p>The pipeline:</p>
-    <ol>
-        <li>Export rekordbox.xml from Rekordbox (captures current track IDs)</li>
-        <li>Decrypt a read-only copy of master.db using the published SQLCipher key</li>
-        <li>Query play history via SQL to compute last played date per track</li>
-        <li>Bucket tracks into five time-based playlists (Last 12 Months, 12–24, 24–36, 36–48, 48+)</li>
-        <li>Inject playlists into rekordbox.xml using track IDs as the join key</li>
-        <li>Reload the xml source in Rekordbox and import the playlists</li>
-        <li>Clean up — the decrypted copy is deleted automatically after use</li>
-    </ol>
-    <p>The whole process runs via a single macOS Shortcut, with user-friendly dialogs covering dependency checks, stale XML warnings and encryption key validation.</p>
-
-    <h3>Key Technologies</h3>
-    <p>Python, SQL, SQLite, SQLCipher, Shell scripting, XML, macOS Shortcuts, Rekordbox.</p>
-
-    <h3>Skills Demonstrated</h3>
-    <p>Proprietary data access and reverse engineering, SQL query design, ETL pipeline thinking, XML manipulation, shell scripting, automated error handling, critical evaluation of AI-generated outputs, technical documentation.</p>
-
-    <ul class="actions special">
-        <li><a href="https://gist.github.com/DominicBarry/f476fea218344bbf3915ac04efeb7fa5" target="_blank" class="button">View on GitHub Gist</a></li>
-    </ul>
-</article>
+							<article class="post featured">
+								<header class="major">
+									<span class="date">March 2026</span>
+									<h2><a href="rekordbox-library-analysis.html">Rekordbox Library<br />
+									Analysis Tool</a></h2>
+									<p>A personal project to surface play history insights from an encrypted proprietary database,<br />
+									using AI-assisted research, SQL querying, Python scripting and XML manipulation<br />
+									to build a practical DJ library management tool.</p>
+								</header>
+								<a href="rekordbox-library-analysis.html" class="image main"><img src="images/rekordbox-library-analysis.jpg" alt="Rekordbox Library Analysis Tool" /></a>
+								<ul class="actions special">
+									<li><a href="rekordbox-library-analysis.html" class="button large">Read More</a></li>
+								</ul>
+							</article>
 
 						<!-- Posts -->
-						 <section class="posts">
-						 	<article class="posts">
-								<span class="date">December 2025</span>
-								<header>
-									<h2><a href="#">SEO Reporting Pipeline<br />
+							<section class="posts">
+								<article>
+									<span class="date">December 2025</span>
+									<header>
+										<h2><a href="seo-reporting-pipeline.html">SEO Reporting Pipeline<br />
 										(Data Engineering)</a></h2>
-								</header>
-								<a href="#" class="image fit"><img src="images/seo-reporting-pipeline.jpg" alt="SEO Reporting Pipeline" /></a>
-								<h3>Summary</h3>
-								<p>Built a production ETL pipeline for <a href="https://herd.io/" target="_blank">Herd</a>, merging historical ranking data<br />
-									with a new tracking platform for one of the world's leading airlines and hospitality brands.<br />
-									Validated the existing system, expanded its capabilities, and redesigned the architecture<br />
-									for multi-client scalability across 15+ brand websites and 13 international markets.</p>
+									</header>
+									<a href="seo-reporting-pipeline.html" class="image fit"><img src="images/seo-reporting-pipeline.jpg" alt="SEO Reporting Pipeline" /></a>
+									<p>Built a production ETL pipeline for <a href="https://herd.io/" target="_blank">Herd</a>, merging historical ranking data with a new tracking platform for one of the world's leading airlines and hospitality brands.</p>
+									<ul class="actions special">
+										<li><a href="seo-reporting-pipeline.html" class="button">Read More</a></li>
+									</ul>
+								</article>
 
-								<h3>The Challenge</h3>
-								<p>The agency needed to migrate from a legacy ranking tool to a new platform while preserving years of historical data. Their existing reporting system had two significant problems: <strong>Performance and reliability</strong> - all calculations and filtering happened within Looker Studio, making reports slow and prone to bugs. <strong>Scalability</strong> - each client had a separate codebase to generate reporting tables, making maintenance difficult and expansion costly. I took full ownership of the project, delivering a complex data engineering system end-to-end.</p>
-								
-								<h3>What I Delivered</h3>
-								<ul>
-									<li>Validated and enhanced the calculated fields table - correcting calculation logic, adding filter granularity, and rebuilding metrics to cascade down to multiple levels to support Looker filtering</li>
-									<li>Moved calculation logic from Looker into BigQuery - faster queries, fewer bugs, easier to validate</li>
-									<li>Designed cross-market aggregation methodology for unified reporting across 5+ international markets</li>
-									<li>Consolidated separate per-client codebases into a single templated system - adding new clients now requires only configuration changes, no code modifications</li>
-									<li>Built cross-region data transfer process for 1.9 billion rows of historical data</li>
-									<li>Created comprehensive documentation and validation queries for ongoing monitoring</li>
-								</ul>
-								
-								<h3>Technical Highlights</h3>
-								<ul>
-									<li><strong>Three-stage daily pipeline</strong> with scheduled dependencies (extract 05:00 → merge 09:00 → calculate 11:00 UTC)</li>
-									<li><strong>Configuration-driven onboarding</strong> - new clients added via database tables, not code changes</li>
-									<li><strong>Idempotent processing</strong> - queries safe to re-run without creating duplicates</li>
-									<li><strong>Multi-level hierarchy</strong> - metrics calculated at GLOBAL, market, and 5 levels of keyword grouping (L1-L5)</li>
-									<li><strong>SEO metrics implemented</strong> - visibility score, weighted visibility, search volume, ranking search volume, estimated click volume, position bucket distributions</li>
-								</ul>
-								
-								<h3>Key Technologies</h3>
-								<p>BigQuery, SQL, Scheduled Queries, Google Cloud Storage, Looker Studio, Git.</p>
-								
-								<h3>Skills Demonstrated</h3>
-								<p>SQL development, ETL pipeline design, data quality assurance, debugging production systems, technical documentation, stakeholder communication, independent problem-solving.</p>
-							</article>
-							
 								<article>
 									<span class="date">April 2025</span>
 									<header>
-										<h2>Leeds Cycle<br />
-										Patterns Analysis</h2>
+										<h2><a href="leeds-cycle-patterns-analysis.html">Leeds Cycle<br />
+										Patterns Analysis</a></h2>
 									</header>
-									<a href="#" class="image fit"><img src="images/leeds-cycle-patterns-analysis.jpeg" alt="" /></a>
-									<h3>Summary</h3>
-									<p>Analysis of ride volumes 2018-23 across 11 recording sites based on 1.2 million data points & +80% daily completeness over a continuous 6 year period.</p>
-									<h3>Key technologies</h3>
-									<p>Python, Pandas, Tableau, R Studio & Google Sheets & AI tools (Claude) to accelerate workflow by creating python scripts to run locally in R Studio.</p>
-									<h3>Key findings</h3>
-									<ul>
-										<li>Weekday peak hour is 5-6PM with 361K rides, 613% higher than the weekend peak hour 2-3PM with 51K rides.</li>
-										<li>Eight out of eleven recording sites have seen ride volume fully recover post COVID.</li>
-										<li>Weekday post COVID ride volume is up 3.7% whilst weekend is up 41.8% compared to pre COVID levels.</li>
-									</ul>
-									<h3>Skills demonstrated</h3>
-									<p>Python data analysis, pandas data manipulation, exploratory data analysis, data visualization, geospatial analysis, time series analysis, and data storytelling.</p>
-									<ul class="actions">
-										<li><a href="https://public.tableau.com/app/profile/dom.barry/viz/LeedsCyclePatternsAnalysis/Overview" class="button small" target="_blank">Tableau dashboard</a></li>
-										<li><a href="https://github.com/DominicBarry/Leeds-Cycle-Patterns-Analysis" class="button small" target="_blank">GitHub repository</a></li>
+									<a href="leeds-cycle-patterns-analysis.html" class="image fit"><img src="images/leeds-cycle-patterns-analysis.jpeg" alt="Leeds Cycle Patterns Analysis" /></a>
+									<p>Analysis of ride volumes 2018–23 across 11 recording sites based on 1.2 million data points & +80% daily completeness over a continuous 6 year period.</p>
+									<ul class="actions special">
+										<li><a href="leeds-cycle-patterns-analysis.html" class="button">Read More</a></li>
 									</ul>
 								</article>
+
 								<article>
 									<span class="date">March 2025</span>
 									<header>
-										<h2>UK Festival<br />
-										Analysis</h2>
+										<h2><a href="uk-festival-analysis.html">UK Festival<br />
+										Analysis</a></h2>
 									</header>
-									<a href="#" class="image fit"><img src="images/uk-music-festival.jpeg" alt="" /></a>
-									<h3>Summary</h3>
-									<p>A comprehensive analysis of 206 UK festivals in 2025, combining web scraped festival data with 30 years of historical weather patterns 
-										to provide insights and predict optimal festival experiences through interactive visualizations.</p>
-									<h3>Key technologies</h3>
-									<p>Screaming Frog, Google Sheets, Python (Pandas, NumPy, SciPy), Open-Meteo Weather API, R Studio, Tableau.</p>
-									<h3>Key findings</h3>
-									<ul>
-										<li>Festival Analysis - Typical festival duration is 3 days, July hosts most festivals but August has highest capacity, South East England holds most festivals.</li>
-										<li>Weather Analysis - Driest festival is Cross the Tacks (3.3% chance of significant rainfall), Warmest festival is Jazz Cafe Festival (14.3C-22.4C temperature range), 
-										best Overall Weather is Tolpuddle Martyrs Festival and Rally.</li>
-									</ul>
-									<h3>Skills demonstrated</h3>
-										<p>Web Scraping & Data Collection, Data Cleaning & Transformation, API Integration, Statistical Analysis, Geographic Data Processing, 
-										Data Visualization using Tableau.</p>
-									<ul class="actions">
-										<li><a href="https://public.tableau.com/app/profile/dom.barry/viz/UKFestivalAnalysis2025/FestivalAnalysis" class="button small" target="_blank">Tableau dashboard</a></li>
-										<li><a href="https://github.com/DominicBarry/UK-Festival-Analysis" class="button small" target="_blank">GitHub repository</a></li>
-									</ul>
-								
-								</article>
-								<!-- 
-								<article>
-									<header>
-										<h2>Title<br />
-										Analysis</h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic02.jpg" alt="" /></a>
-									<p><b>Summary:</b> </p>
-									<p><b>Key technologies:</b> </p>
-									<p><b>Key findings: </b> </p>			
-									<p><b>Skills demonstrated: </b> </p>
-									<ul class="actions">
-										<li><a href="#" class="button small">Tableau dashboard</a></li>
-										<li><a href="#" class="button small" target="_blank">GitHub repository</a></li>
+									<a href="uk-festival-analysis.html" class="image fit"><img src="images/uk-music-festival.jpeg" alt="UK Festival Analysis" /></a>
+									<p>A comprehensive analysis of 206 UK festivals in 2025, combining web scraped festival data with 30 years of historical weather patterns to provide insights and predict optimal festival experiences.</p>
+									<ul class="actions special">
+										<li><a href="uk-festival-analysis.html" class="button">Read More</a></li>
 									</ul>
 								</article>
-								-->	
-								
-						</section>
 
-						<!-- Footer
-							<footer>
-								<div class="pagination">
-									<a href="#" class="previous">Prev</a>
-									<a href="#" class="page active">1</a>
-									<a href="#" class="page">2</a>
-									<a href="#" class="page">3</a>
-									<span class="extra">&hellip;</span>
-									<a href="#" class="page">8</a>
-									<a href="#" class="page">9</a>
-									<a href="#" class="page">10</a>
-									<a href="#" class="next">Next</a>
-								</div>
-							</footer>
-						-->
+							</section>
 
 					</div>
 
@@ -256,9 +138,6 @@
 						</section>
 					</footer>
 
-				<!-- Copyright -->
-
-
 			</div>
 
 		<!-- Scripts -->
@@ -272,5 +151,3 @@
 
 	</body>
 </html>
-
-

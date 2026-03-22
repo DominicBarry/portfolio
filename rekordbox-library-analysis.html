@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Rekordbox Library Analysis Tool | Dom Barry Data Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" type="image/png" href="/portfolio/images/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="/portfolio/images/favicon.svg" />
+		<link rel="shortcut icon" href="/portfolio/images/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/portfolio/images/apple-touch-icon.png" />
+		<link rel="manifest" href="/portfolio/images/site.webmanifest" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="index.html" class="logo">Dom Barry Data Portfolio</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li><a href="index.html">Projects</a></li>
+						</ul>
+						<ul class="icons">
+							<li><a href="https://www.linkedin.com/in/dom-barry/" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/DominicBarry" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<article class="post featured">
+							<header class="major">
+								<span class="date">March 2026</span>
+								<h2>Rekordbox Library<br />
+								Analysis Tool</h2>
+								<p>A personal project to surface play history insights from an encrypted proprietary database,<br />
+								using AI-assisted research, SQL querying, Python scripting and XML manipulation<br />
+								to build a practical DJ library management tool.</p>
+							</header>
+							<a href="#" class="image main"><img src="images/rekordbox-library-analysis.jpg" alt="Rekordbox Library Analysis Tool" /></a>
+
+							<h3>The Problem</h3>
+							<p>Rekordbox has no native "Last Played" field and no smart playlist functionality based on play history. Play history is recorded, but only within auto-generated History playlists — and these are excluded from XML exports and cannot be used as a filter within Rekordbox itself. For an active DJ managing a library of several thousand tracks, this makes it impossible to identify music that hasn't been played for months or years — useful both for library housekeeping and rediscovering forgotten tracks.</p>
+
+							<h3>The Investigation</h3>
+							<p>I knew the data existed — the question was how to access it. I used multiple LLMs (ChatGPT, Gemini and Claude) iteratively to map out the options, and this process itself became one of the more interesting aspects of the project.</p>
+							<p>Each LLM had partial knowledge and partial blind spots. ChatGPT correctly identified the Rekordbox database as the right data source and outlined a viable pipeline, but never identified the fundamental blocker: the database is encrypted. Gemini got further — correctly identifying SQLCipher encryption — but wrongly stated the key was unique to each machine, which would have sent the investigation down a dead end. Claude identified that Pioneer uses a single hardcoded SQLCipher key across all Rekordbox installations — publicly documented by the developer community — which unlocked the path forward.</p>
+							<p>Progress required consistent challenge and verification — confident-sounding answers were sometimes wrong, and it was only by questioning outputs and testing assumptions that a clear, workable solution emerged. Knowing the Rekordbox ecosystem gave confidence that the data existed and the problem was solvable, but it was a methodical, detail-oriented approach that ultimately got it there.</p>
+
+							<h3>What I Built</h3>
+							<p>The core design principle was safety — rather than writing directly to the live database and risking any unintended changes, the solution reads a decrypted copy and uses Rekordbox's own XML import mechanism to surface the results. No changes are ever made to the live database.</p>
+							<p>The pipeline:</p>
+							<ol>
+								<li>Export rekordbox.xml from Rekordbox (captures current track IDs)</li>
+								<li>Decrypt a read-only copy of master.db using the published SQLCipher key</li>
+								<li>Query play history via SQL to compute last played date per track</li>
+								<li>Bucket tracks into five time-based playlists (Last 12 Months, 12–24, 24–36, 36–48, 48+)</li>
+								<li>Inject playlists into rekordbox.xml using track IDs as the join key</li>
+								<li>Reload the xml source in Rekordbox and import the playlists</li>
+								<li>Clean up — the decrypted copy is deleted automatically after use</li>
+							</ol>
+							<p>The whole process runs via a single macOS Shortcut, with user-friendly dialogs covering dependency checks, stale XML warnings and encryption key validation.</p>
+
+							<h3>Key Technologies</h3>
+							<p>Python, SQL, SQLite, SQLCipher, Shell scripting, XML, macOS Shortcuts, Rekordbox.</p>
+
+							<h3>Skills Demonstrated</h3>
+							<p>Proprietary data access and reverse engineering, SQL query design, ETL pipeline thinking, XML manipulation, shell scripting, automated error handling, critical evaluation of AI-generated outputs, technical documentation.</p>
+
+							<ul class="actions special">
+								<li><a href="https://gist.github.com/DominicBarry/f476fea218344bbf3915ac04efeb7fa5" target="_blank" class="button">View on GitHub Gist</a></li>
+								<li><a href="index.html" class="button">Back to Projects</a></li>
+							</ul>
+						</article>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section class="split contact">
+							<section class="alt">
+								<h3>Location</h3>
+								<p><br />
+								Leeds, West Yorkshire</p>
+							</section>
+							<section>
+								<h3>Phone</h3>
+								<p><a href="#">0784 358 2793</a></p>
+							</section>
+							<section>
+								<h3>Email</h3>
+								<p><a href="#">dom.barry [AT] gmail.com</a></p>
+							</section>
+							<section>
+								<h3>Social</h3>
+								<ul class="icons alt">
+									<li><a href="https://www.linkedin.com/in/dom-barry/" class="icon brands alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+									<li><a href="https://github.com/DominicBarry" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+								</ul>
+							</section>
+						</section>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
