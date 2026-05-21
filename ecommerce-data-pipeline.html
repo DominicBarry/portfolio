@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-DTXR3EQQG7"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-DTXR3EQQG7');
+		</script>
+		<title>E-commerce Data Pipeline | Dom Barry Data Portfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="icon" type="image/png" href="/portfolio/images/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="/portfolio/images/favicon.svg" />
+		<link rel="shortcut icon" href="/portfolio/images/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/portfolio/images/apple-touch-icon.png" />
+		<link rel="manifest" href="/portfolio/images/site.webmanifest" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="canonical" href="https://dominicbarry.github.io/portfolio/ecommerce-data-pipeline.html" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<a href="/portfolio/" class="logo">Dom Barry Data Portfolio</a>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul class="links">
+							<li><a href="/portfolio/">Projects</a></li>
+						</ul>
+						<ul class="icons">
+							<li><a href="https://www.linkedin.com/in/dom-barry/" class="icon brands fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/DominicBarry" class="icon brands fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<article class="post featured">
+							<header class="major">
+								<span class="date">May 2026</span>
+								<h2>E-commerce Data Pipeline<br />
+								(Data Engineering)</h2>
+								<p>An end-to-end batch data pipeline demonstrating incremental loading, dimensional modeling,<br />
+								and workflow orchestration. Built as a portfolio project to deepen data engineering skills<br />
+								using dbt and Apache Airflow—tools I hadn't used before but knew would strengthen<br />
+								my existing SQL and BigQuery foundation.</p>
+							</header>
+							<a href="#" class="image main"><img src="images/ecommerce-data-pipeline.jpg" alt="E-commerce Data Pipeline" /></a>
+
+							<h3>The Motivation</h3>
+							<p>After building a production SEO pipeline for Herd, I wanted to continue developing data engineering skills. I'd initially looked at the Google Cloud Professional Data Engineer certification, but after reviewing the curriculum I realized I didn't need more course completion badges—I needed more hands-on project work.</p>
+							<p>The SEO pipeline had given me strong foundations in SQL and BigQuery, but I hadn't worked with transformation frameworks like dbt or orchestration tools like Airflow. Rather than follow a pre-built tutorial, I set out to build a realistic pipeline from scratch: sourcing my own dataset, making my own architectural decisions, and working through the problems that only surface when you're building something real.</p>
+
+							<h3>What I Built</h3>
+							<p>A production-style batch pipeline processing e-commerce transaction data through a dimensional warehouse. The pipeline loads data incrementally (one date at a time), deduplicates at the staging layer, transforms into a star schema, runs 22 automated data quality tests, and orchestrates everything through Airflow.</p>
+							<ul>
+								<li><strong>Incremental ingestion</strong> — Python script accepts a date parameter and loads only that day's transactions to BigQuery, mirroring real-world batch patterns</li>
+								<li><strong>Deduplication logic</strong> — Source data contained 377 duplicate rows; staging layer uses ROW_NUMBER() window functions to deduplicate by business key, handling both source duplicates and accidental pipeline re-runs</li>
+								<li><strong>Dimensional model</strong> — Staging layer cleans and flags quality issues; marts layer builds a star schema (2 dimensions, 2 fact tables) optimized for analytical queries</li>
+								<li><strong>Automated testing</strong> — 22 dbt tests validate primary keys, foreign keys, and required fields across all layers</li>
+								<li><strong>Workflow orchestration</strong> — Airflow DAG coordinates ingestion → dbt transformation dependencies, supports manual triggers and historical backfilling</li>
+							</ul>
+
+							<h3>Technical Highlights</h3>
+							<ul>
+								<li><strong>Airflow backfilling</strong> — Used manual backfill commands to load historical dates sequentially; max_active_runs=1 enforces one-date-at-a-time processing</li>
+								<li><strong>Quality flags over hard filters</strong> — Staging layer flags issues (negative quantities, missing customer IDs) rather than dropping rows; downstream consumers decide how to handle them</li>
+								<li><strong>Composite quality flag</strong> — Single is_valid_transaction field checks all quality conditions at once, making it easy for analysts to filter to clean data</li>
+								<li><strong>dbt model organization</strong> — Three-layer structure (staging/dimensions/facts) with tests co-located in schema.yml files per folder</li>
+								<li><strong>Raw layer as audit trail</strong> — Everything received gets stored; deduplication happens in staging, preserving flexibility for reprocessing with different logic</li>
+								<li><strong>Full-refresh transformations</strong> — Simpler to implement and validate as a starting point; incremental models would improve performance but add complexity around state management</li>
+							</ul>
+
+							<h3>Key Technologies</h3>
+							<p>Python, BigQuery, dbt, Apache Airflow, SQL, Git.</p>
+
+							<h3>Skills Demonstrated</h3>
+							<p>Pipeline architecture, incremental data loading, dimensional modeling, SQL transformation logic, data quality testing, workflow orchestration, independent problem-solving, technical decision-making.</p>
+
+							<ul class="actions special">
+								<li><a href="https://github.com/DominicBarry/ecommerce-data-pipeline" class="button" target="_blank">GitHub Repository</a></li>
+								<li><a href="index.html" class="button">Back to Projects</a></li>
+							</ul>
+						</article>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section class="split contact">
+							<section class="alt">
+								<h3>Location</h3>
+								<p><br />
+								Leeds, West Yorkshire</p>
+							</section>
+							<section>
+								<h3>Phone</h3>
+								<p><a href="#">0784 358 2793</a></p>
+							</section>
+							<section>
+								<h3>Email</h3>
+								<p><a href="#">dom.barry [AT] gmail.com</a></p>
+							</section>
+							<section>
+								<h3>Social</h3>
+								<ul class="icons alt">
+									<li><a href="https://www.linkedin.com/in/dom-barry/" class="icon brands alt fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
+									<li><a href="https://github.com/DominicBarry" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+								</ul>
+							</section>
+						</section>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
