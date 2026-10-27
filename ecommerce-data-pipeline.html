@@ -70,7 +70,7 @@
 							<p>A production-style batch pipeline processing e-commerce transaction data through a dimensional warehouse. The pipeline loads data incrementally (one date at a time), deduplicates at the staging layer, transforms into a star schema, runs 22 automated data quality tests, and orchestrates everything through Airflow.</p>
 							<ul>
 								<li><strong>Incremental ingestion</strong> — Python script accepts a date parameter and loads only that day's transactions to BigQuery, mirroring real-world batch patterns</li>
-								<li><strong>Deduplication logic</strong> — Source data contained 207 exact duplicate rows; staging layer uses ROW_NUMBER() window functions to remove them, handling both source duplicates and accidental pipeline re-runs while keeping genuine repeat lines</li>
+								<li><strong>Deduplication logic</strong> — Source data contained 500 exact duplicate rows; staging layer uses ROW_NUMBER() window functions to remove them, handling both source duplicates and accidental pipeline re-runs while keeping genuine repeat lines</li>
 								<li><strong>Dimensional model</strong> — Staging layer cleans and flags quality issues; marts layer builds a star schema (2 dimensions, 2 fact tables) optimized for analytical queries</li>
 								<li><strong>Automated testing</strong> — 22 dbt tests validate primary keys, foreign keys, and required fields across all layers</li>
 								<li><strong>Workflow orchestration</strong> — Airflow DAG coordinates ingestion → dbt transformation dependencies, supports manual triggers and historical backfilling</li>
