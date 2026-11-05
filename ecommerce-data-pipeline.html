@@ -53,47 +53,59 @@
 
 						<article class="post featured">
 							<header class="major">
-								<span class="date">May 2026</span>
+								<span class="date">May 2026 · Extended Nov 2026</span>
 								<h2>E-commerce Data Pipeline</h2>
-								<p>An end-to-end batch data pipeline demonstrating incremental loading, dimensional modelling,<br />
-								and workflow orchestration. Built as a portfolio project to deepen data engineering skills<br />
-								using dbt and Apache Airflow—tools I hadn't used before but knew would strengthen<br />
-								my existing SQL and BigQuery foundation.</p>
+								<p>An end-to-end batch pipeline built to learn dbt and Airflow on top of my SQL and BigQuery experience.<br />
+								Extended in November 2026 with business logic testing, pipeline validation and CI/CD. <a href="#phase-2">See Phase 2</a>.</p>
 							</header>
 							<a href="#" class="image main"><img src="images/ecommerce-data-pipeline.jpg" alt="E-commerce Data Pipeline" /></a>
 
 							<h3>The Motivation</h3>
-							<p>After building a production SEO pipeline for Herd, I wanted to continue developing data engineering skills. I'd initially looked at the Google Cloud Professional Data Engineer certification, but after reviewing the curriculum I realized I didn't need more course completion badges—I needed more hands-on project work.</p>
-							<p>The SEO pipeline had given me strong foundations in SQL and BigQuery, but I hadn't worked with transformation frameworks like dbt or orchestration tools like Airflow. Rather than follow a pre-built tutorial, I set out to build a realistic pipeline from scratch: sourcing my own dataset, making my own architectural decisions, and working through the problems that only surface when you're building something real.</p>
+							<p>After building a production SEO pipeline for Herd, I wanted more data engineering experience. I considered the Google Cloud Professional Data Engineer certification, but decided I needed hands-on projects more than another badge.</p>
+							<p>The SEO pipeline gave me solid SQL and BigQuery skills, but no experience of dbt or Airflow. So I built a pipeline from scratch rather than following a tutorial: my own dataset, my own design decisions, and the problems that only show up in real builds.</p>
 
-							<h3>What I Built</h3>
-							<p>A production-style batch pipeline processing e-commerce transaction data through a dimensional warehouse. The pipeline loads data incrementally (one date at a time), deduplicates at the staging layer, transforms into a star schema, runs 22 automated data quality tests, and orchestrates everything through Airflow.</p>
+							<h3>Phase 1: What I Built (May 2026)</h3>
+							<p>A batch pipeline that loads e-commerce transactions into BigQuery one day at a time and transforms them into a tested star schema.</p>
 							<ul>
-								<li><strong>Incremental ingestion</strong> — Python script accepts a date parameter and loads only that day's transactions to BigQuery, mirroring real-world batch patterns</li>
-								<li><strong>Deduplication logic</strong> — Source data contained 500 exact duplicate rows; staging layer uses ROW_NUMBER() window functions to remove them, handling both source duplicates and accidental pipeline re-runs while keeping genuine repeat lines</li>
-								<li><strong>Dimensional model</strong> — Staging layer cleans and flags quality issues; marts layer builds a star schema (2 dimensions, 2 fact tables) optimized for analytical queries</li>
-								<li><strong>Automated testing</strong> — 22 dbt tests validate primary keys, foreign keys, and required fields across all layers</li>
-								<li><strong>Workflow orchestration</strong> — Airflow DAG coordinates ingestion → dbt transformation dependencies, supports manual triggers and historical backfilling</li>
+								<li><strong>Incremental ingestion</strong> — A Python script loads one day's transactions per run, mirroring real-world batch jobs</li>
+								<li><strong>Deduplication</strong> — Staging removes duplicate rows with ROW_NUMBER(), handling source duplicates and pipeline re-runs</li>
+								<li><strong>Dimensional model</strong> — Staging cleans and flags quality issues; the marts layer builds a star schema with 2 dimensions and 2 fact tables</li>
+								<li><strong>Automated testing</strong> — 22 dbt tests check primary keys and required fields</li>
+								<li><strong>Orchestration</strong> — An Airflow DAG runs ingestion then dbt, with manual triggers and historical backfills</li>
 							</ul>
 
 							<h3>Technical Highlights</h3>
 							<ul>
-								<li><strong>Airflow backfilling</strong> — Used manual backfill commands to load historical dates sequentially; max_active_runs=1 enforces one-date-at-a-time processing</li>
-								<li><strong>Quality flags over hard filters</strong> — Staging layer flags issues (negative quantities, missing customer IDs) rather than dropping rows; downstream consumers decide how to handle them</li>
-								<li><strong>Composite quality flag</strong> — Single is_valid_transaction field checks all quality conditions at once, making it easy for analysts to filter to clean data</li>
-								<li><strong>dbt model organization</strong> — Three-layer structure (staging/dimensions/facts) with tests co-located in schema.yml files per folder</li>
-								<li><strong>Raw layer as audit trail</strong> — Everything received gets stored; deduplication happens in staging, preserving flexibility for reprocessing with different logic</li>
-								<li><strong>Full-refresh transformations</strong> — Simpler to implement and validate as a starting point; incremental models would improve performance but add complexity around state management</li>
+								<li><strong>Airflow backfilling</strong> — Historical dates loaded one at a time with backfill commands</li>
+								<li><strong>Quality flags over hard filters</strong> — Staging flags issues (negative quantities, missing customer IDs) instead of dropping rows, so analysts decide how to handle them</li>
+								<li><strong>Composite quality flag</strong> — One is_valid_transaction field combines all quality checks for easy filtering</li>
+								<li><strong>dbt model organisation</strong> — Three layers (staging, dimensions, facts), with tests alongside each layer's models</li>
+								<li><strong>Raw layer as audit trail</strong> — Raw keeps everything received; deduplication happens in staging, so rules can change and be re-run</li>
+								<li><strong>Full-refresh transformations</strong> — Simpler to build and validate; incremental models only pay off at larger volumes</li>
 							</ul>
 
+							<h3 id="phase-2">Phase 2: Testing, Validation and CI/CD (Nov 2026)</h3>
+							<p>I went back to make the pipeline check its own work. Writing tests and documentation uncovered two silent bugs, both now fixed.</p>
+							<ul>
+								<li><strong>Found and fixed a deduplication bug</strong> — The staging key assumed one line per product per invoice, so it removed genuine order lines (170 in the original 5-day load). A raw-to-staging reconciliation test now catches this; I reintroduced the bug to prove the test fails</li>
+								<li><strong>Business logic tests</strong> — Six new tests (28 in total) check the numbers add up: staging reconciles to raw, line values and order totals match, one customer and one date per invoice, and totals have the right sign for the invoice type</li>
+								<li><strong>Idempotent ingestion</strong> — Re-running a date replaces it instead of duplicating it</li>
+								<li><strong>Validation in Airflow</strong> — The DAG now runs ingest → transform → test, and a failed test fails the run. Ingestion retries on brief failures; tests don't</li>
+								<li><strong>CI/CD</strong> — Every push to GitHub rebuilds and tests all models in a separate BigQuery dataset, then publishes the dbt docs</li>
+								<li><strong>Documented every model and column</strong> — Checking each model's code against what it was meant to do found a second bug: a window function's default frame blanked 17 product descriptions. Confirmed with a count, then fixed with an explicit frame</li>
+								<li><strong>Loaded a full month</strong> — December 2010 (42,481 rows) gives the tests real edge cases to check</li>
+							</ul>
+							<p>I also considered slowly changing dimensions and incremental models, and decided against both: the data doesn't change in ways SCD2 would capture, and at this volume a full rebuild takes seconds.</p>
+
 							<h3>Key Technologies</h3>
-							<p>Python, BigQuery, dbt, Apache Airflow, SQL, Git.</p>
+							<p>Python, BigQuery, dbt, Apache Airflow, SQL, Git, GitHub Actions.</p>
 
 							<h3>Skills Demonstrated</h3>
-							<p>Pipeline architecture, incremental data loading, dimensional modelling, SQL transformation logic, data quality testing, workflow orchestration, independent problem-solving, technical decision-making.</p>
+							<p>Pipeline architecture, incremental data loading, dimensional modelling, SQL transformation logic, data quality testing and reconciliation, workflow orchestration, CI/CD, independent problem-solving, technical decision-making.</p>
 
 							<ul class="actions special">
 								<li><a href="https://github.com/DominicBarry/ecommerce-data-pipeline" class="button" target="_blank">GitHub Repository</a></li>
+								<li><a href="https://dominicbarry.github.io/ecommerce-data-pipeline/" class="button" target="_blank">Live dbt Docs</a></li>
 								<li><a href="index.html" class="button">Back to Projects</a></li>
 							</ul>
 						</article>
