@@ -2973,6 +2973,10 @@ input, select, textarea {
 					border-top: solid 2px;
 				}
 
+				header.major > .date.date-wide:before, header.major > .date.date-wide:after {
+    				width: calc(50% - 9rem);
+				}
+
 				header.major > .date:before {
 					left: 0;
 				}
