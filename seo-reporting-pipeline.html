@@ -53,42 +53,48 @@
 
 						<article class="post featured">
 							<header class="major">
-								<span class="date">December 2025</span>
+								<span class="date date-wide">Client work · Jun – Dec 2025</span>
 								<h2>SEO Reporting Pipeline</h2>
-								<p>Built a production ETL pipeline for <a href="https://herd.io/" target="_blank">Herd</a>, merging historical ranking data<br />
-								with a new tracking platform for one of the world's leading airlines and hospitality brands.<br />
-								Validated the existing system, expanded its capabilities, and redesigned the architecture<br />
-								for multi-client scalability across 15+ brand websites and 13 international markets.</p>
+								<p>A production ETL pipeline for one of the world's leading airlines and hospitality brands,<br />
+								built as a freelancer for the performance marketing agency <a href="https://herd.io/" target="_blank">Herd</a>.<br />
+								It moved reporting to a new tracking platform without losing years of historical data,<br />
+								and covers 15+ brand websites across 13 international markets.</p>
 							</header>
 							<a href="#" class="image main"><img src="images/seo-reporting-pipeline.jpg" alt="SEO Reporting Pipeline" /></a>
 
 							<h3>The Challenge</h3>
-							<p>The agency needed to migrate from a legacy ranking tool to a new platform while preserving years of historical data. Their existing reporting system had two significant problems: <strong>Performance and reliability</strong> - all calculations and filtering happened within Looker Studio, making reports slow and prone to bugs. <strong>Scalability</strong> - each client had a separate codebase to generate reporting tables, making maintenance difficult and expansion costly. I took full ownership of the project, delivering a complex data engineering system end-to-end.</p>
+							<p>Herd needed to move from a legacy ranking tool to a new platform while keeping years of historical data. The reporting set-up had two problems:</p>
+							<ul>
+								<li><strong>Slow, bug-prone reports</strong> - all calculations and filtering ran inside Looker Studio.</li>
+								<li><strong>Hard to scale</strong> - each client had its own codebase for building reporting tables, which made maintenance slow and onboarding new clients costly.</li>
+							</ul>
 
 							<h3>What I Delivered</h3>
+							<p>I took ownership of the project end to end.</p>
 							<ul>
-								<li>Validated and enhanced the calculated fields table - correcting calculation logic, adding filter granularity, and rebuilding metrics to cascade down to multiple levels to support Looker filtering</li>
-								<li>Moved calculation logic from Looker into BigQuery - faster queries, fewer bugs, easier to validate</li>
-								<li>Designed cross-market aggregation methodology for unified reporting across 13+ international markets</li>
-								<li>Consolidated separate per-client codebases into a single templated system - adding new clients now requires only configuration changes, no code modifications</li>
-								<li>Built cross-region data transfer process migrating millions of rows of historical ranking data</li>
-								<li>Created comprehensive documentation and validation queries for ongoing monitoring</li>
+								<li>Designed a three-stage daily pipeline that merges historical data from the legacy tool with data from the new platform</li>
+								<li>Built a cross-region transfer process to migrate millions of rows of historical ranking data</li>
+								<li>Validated and enhanced the calculated fields table - corrected calculation logic, added filter granularity, and rebuilt metrics to cascade to every reporting level</li>
+								<li>Moved calculation logic from Looker Studio into BigQuery - faster queries, fewer bugs, easier validation</li>
+								<li>Designed a cross-market aggregation method for unified reporting across all markets</li>
+								<li>Consolidated separate per-client codebases into one templated system, so new clients need only configuration changes</li>
+								<li>Wrote documentation and validation queries for ongoing monitoring</li>
 							</ul>
 
 							<h3>Technical Highlights</h3>
 							<ul>
-								<li><strong>Three-stage daily pipeline</strong> with scheduled dependencies (extract 05:00 → merge 09:00 → calculate 11:00 UTC)</li>
-								<li><strong>Configuration-driven onboarding</strong> - new clients added via database tables, not code changes</li>
-								<li><strong>Idempotent processing</strong> - queries safe to re-run without creating duplicates</li>
-								<li><strong>Multi-level hierarchy</strong> - metrics calculated at GLOBAL, market, and 5 levels of keyword grouping (L1-L5)</li>
-								<li><strong>SEO metrics implemented</strong> - visibility score, weighted visibility, search volume, ranking search volume, estimated click volume, position bucket distributions</li>
+								<li><strong>Three-stage daily schedule</strong> - extract 05:00 → merge 09:00 → calculate 11:00 UTC</li>
+								<li><strong>Configuration-driven onboarding</strong> - new clients are added through configuration tables, not code changes</li>
+								<li><strong>Safe to re-run</strong> - queries are idempotent, so re-running never creates duplicates</li>
+								<li><strong>Multi-level hierarchy</strong> - metrics calculated at global, market and five keyword-group levels (L1–L5)</li>
+								<li><strong>SEO metrics</strong> - visibility score, weighted visibility, search volume, ranking search volume, estimated clicks and position bucket distributions</li>
 							</ul>
 
 							<h3>Key Technologies</h3>
-							<p>BigQuery, SQL, Scheduled Queries, Google Cloud Storage, Looker Studio, Git.</p>
+							<p>BigQuery, SQL, Scheduled Queries, Google Cloud Storage, Looker Studio, Git</p>
 
 							<h3>Skills Demonstrated</h3>
-							<p>SQL development, ETL pipeline design, data quality assurance, debugging production systems, technical documentation, stakeholder communication, independent problem-solving.</p>
+							<p>SQL development, ETL pipeline design, data migration, data validation, technical documentation, stakeholder communication</p>
 
 							<ul class="actions special">
 								<li><a href="index.html" class="button">Back to Projects</a></li>
