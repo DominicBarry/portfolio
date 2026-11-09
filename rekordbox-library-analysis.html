@@ -55,41 +55,44 @@
 						<article class="post featured">
 							<header class="major">
 								<span class="date">March 2026</span>
-								<h2>Rekordbox Last Played<br />
-								Analysis Tool</h2>
-								<p>A personal project to surface play history insights from an encrypted proprietary database,<br />
-								using AI-assisted research, SQL querying, Python scripting and XML manipulation<br />
-								to build a practical DJ library management tool.</p>
+								<h2>Rekordbox Last<br />
+								Played Analysis Tool</h2>
+								<p>Rekordbox records play history but won't let you filter by it. I decrypted a copy of its database,<br />
+								worked out when each track was last played and imported the results back as playlists.</p>
 							</header>
-							<a href="#" class="image main"><img src="images/rekordbox-library-analysis.jpg" alt="Rekordbox Library Analysis Tool" /></a>
+							<a href="#" class="image main"><img src="images/rekordbox-library-analysis.jpg" alt="Rekordbox Last Played Analysis Tool" /></a>
 
 							<h3>The Problem</h3>
-							<p>Rekordbox has no native "Last Played" field and no smart playlist functionality based on play history. Play history is recorded, but only within auto-generated History playlists — and these are excluded from XML exports and cannot be used as a filter within Rekordbox itself. For an active DJ managing a library of several thousand tracks, this makes it impossible to identify music that hasn't been played for months or years — useful both for library housekeeping and rediscovering forgotten tracks.</p>
+							<p>Rekordbox has no "Last Played" field and no smart playlists based on play history. Plays are recorded, but only in auto-generated History playlists, which are left out of XML exports and can't be used as filters. With a library of several thousand tracks, that makes it impossible to find music I haven't played for months or years, which is useful both for clearing out the library and for rediscovering forgotten tracks.</p>
 
 							<h3>The Investigation</h3>
-							<p>I knew the data existed — the question was how to access it. I used multiple LLMs (ChatGPT, Gemini and Claude) iteratively to map out the options, and this process itself became one of the more interesting aspects of the project.</p>
-							<p>Each LLM had partial knowledge and partial blind spots. ChatGPT correctly identified the Rekordbox database as the right data source and outlined a viable pipeline, but never identified the fundamental blocker: the database is encrypted. Gemini got further — correctly identifying SQLCipher encryption — but wrongly stated the key was unique to each machine, which would have sent the investigation down a dead end. Claude identified that Pioneer uses a single hardcoded SQLCipher key across all Rekordbox installations — publicly documented by the developer community — which unlocked the path forward.</p>
-							<p>Progress required consistent challenge and verification — confident-sounding answers were sometimes wrong, and it was only by questioning outputs and testing assumptions that a clear, workable solution emerged. Knowing the Rekordbox ecosystem gave confidence that the data existed and the problem was solvable, but it was a methodical, detail-oriented approach that ultimately got it there.</p>
+							<p>I knew the data existed. The question was how to read it. I used ChatGPT, Gemini and Claude to work through the options, and each got part of the way:</p>
+							<ul>
+								<li>ChatGPT identified the Rekordbox database as the right source and outlined a workable pipeline, but missed that the database is encrypted.</li>
+								<li>Gemini identified the SQLCipher encryption, but wrongly said the key was unique to each machine, which would have been a dead end.</li>
+								<li>Claude identified that Pioneer uses a single hardcoded SQLCipher key across all Rekordbox installations, which the developer community has published.</li>
+							</ul>
+							<p>Several confident answers turned out to be wrong, so I checked each claim before building on it.</p>
 
 							<h3>What I Built</h3>
-							<p>The core design principle was safety — rather than writing directly to the live database and risking any unintended changes, the solution reads a decrypted copy and uses Rekordbox's own XML import mechanism to surface the results. No changes are ever made to the live database.</p>
+							<p>To avoid any risk to my library, the tool never writes to the live database. It reads a decrypted copy and uses Rekordbox's own XML import to bring in the results.</p>
 							<p>The pipeline:</p>
 							<ol>
-								<li>Export rekordbox.xml from Rekordbox (captures current track IDs)</li>
-								<li>Decrypt a read-only copy of master.db using the published SQLCipher key</li>
-								<li>Query play history via SQL to compute last played date per track</li>
-								<li>Bucket tracks into five time-based playlists (Last 12 Months, 12–24, 24–36, 36–48, 48+)</li>
-								<li>Inject playlists into rekordbox.xml using track IDs as the join key</li>
-								<li>Reload the xml source in Rekordbox and import the playlists</li>
-								<li>Clean up — the decrypted copy is deleted automatically after use</li>
+								<li>Export rekordbox.xml from Rekordbox to capture current track IDs</li>
+								<li>Decrypt a read-only copy of master.db with the published SQLCipher key</li>
+								<li>Use SQL to find the last played date for each track</li>
+								<li>Sort tracks into five playlists by time since last played: last 12 months, 12–24, 24–36, 36–48 and 48+ months</li>
+								<li>Add the playlists to rekordbox.xml, matching tracks by ID</li>
+								<li>Reload the XML in Rekordbox and import the playlists</li>
+								<li>Delete the decrypted copy automatically</li>
 							</ol>
-							<p>The whole process runs via a single macOS Shortcut, with user-friendly dialogs covering dependency checks, stale XML warnings and encryption key validation.</p>
+							<p>It all runs from a single macOS Shortcut, with dialogs that check dependencies, warn if the XML export is out of date and confirm the encryption key works.</p>
 
 							<h3>Key Technologies</h3>
-							<p>Python, SQL, SQLite, SQLCipher, Shell scripting, XML, macOS Shortcuts, Rekordbox.</p>
+							<p>Python, SQL, SQLite, SQLCipher, shell scripting, XML, macOS Shortcuts, Rekordbox</p>
 
 							<h3>Skills Demonstrated</h3>
-							<p>Proprietary data access and reverse engineering, SQL query design, ETL pipeline thinking, XML manipulation, shell scripting, automated error handling, critical evaluation of AI-generated outputs, technical documentation.</p>
+							<p>Accessing an encrypted proprietary database, SQL query design, ETL pipeline design, XML manipulation, shell scripting, error handling, critically checking AI-generated answers, technical documentation</p>
 
 							<ul class="actions special">
 								<li><a href="https://gist.github.com/DominicBarry/f476fea218344bbf3915ac04efeb7fa5" target="_blank" class="button">View on GitHub Gist</a></li>
