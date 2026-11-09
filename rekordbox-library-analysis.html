@@ -79,14 +79,14 @@
 							<p>The pipeline:</p>
 							<ol>
 								<li>Export rekordbox.xml from Rekordbox to capture current track IDs</li>
-								<li>Decrypt a read-only copy of master.db with the published SQLCipher key</li>
+								<li>Open master.db read-only and decrypt it to a temporary copy with the published SQLCipher key</li>
 								<li>Use SQL to find the last played date for each track</li>
 								<li>Sort tracks into five playlists by time since last played: last 12 months, 12–24, 24–36, 36–48 and 48+ months</li>
 								<li>Add the playlists to rekordbox.xml, matching tracks by ID</li>
 								<li>Reload the XML in Rekordbox and import the playlists</li>
 								<li>Delete the decrypted copy automatically</li>
 							</ol>
-							<p>It all runs from a single macOS Shortcut, with dialogs that check dependencies, warn if the XML export is out of date and confirm the encryption key works.</p>
+							<p>Everything except the export and import runs from a single macOS Shortcut. Before it starts, it checks dependencies, makes sure Rekordbox is closed and warns if the XML export is more than a week old. After decrypting, it checks the database is readable, which would catch a change to the encryption key.</p>
 
 							<h3>Key Technologies</h3>
 							<p>Python, SQL, SQLite, SQLCipher, shell scripting, XML, macOS Shortcuts, Rekordbox</p>
